@@ -1,0 +1,23 @@
+[[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]
+summing columns with offset 0
+55
+summing columns with offset 1
+60
+summing columns with offset 2
+65
+summing columns with offset 3
+70
+summing columns with offset 4
+75
+summing rows with offset 0
+15
+summing rows with offset 1
+40
+summing rows with offset 2
+65
+summing rows with offset 3
+90
+summing rows with offset 4
+115
+summing diag
+65
