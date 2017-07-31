@@ -135,7 +135,7 @@ public class DdlDml {
 			} catch( FileNotFoundException e) {
 				System.out.println($POPULATE_FILE_PATH + " not found.");
 			} catch( IOException e) {
-				System.out.println("IOException while reading file");
+				System.out.println("IOException while reading file " +$POPULATE_FILE_PATH);
 				System.exit(0);
 			}
 			s.executeBatch();
@@ -153,7 +153,7 @@ public class DdlDml {
 			System.out.println("connected @ " + url);
 			return connected = true;
 		} catch( SQLException e) {
-			System.out.println("couldn't connect to database");
+			System.out.println("couldn't connect to database " + url);
 		}
 		return connected = false;
 	}
