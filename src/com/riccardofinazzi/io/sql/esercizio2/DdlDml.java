@@ -11,6 +11,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * standard(ish) UN*X preferable sysexits codes have been choosen due to missing
+ * Windows's equivalent (https://stackoverflow.com/a/31521351).
+ */
 public class DdlDml {
 
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -19,6 +23,7 @@ public class DdlDml {
 			Class.forName(DRIVER);
 		} catch( ClassNotFoundException e) {
 			System.out.println("couldn't load jdbc driver");
+			System.exit(69);
 		}
 	}
 	private static final String		$POPULATE_FILE_PATH	= "src/utils/viaggi.sql";
@@ -135,8 +140,8 @@ public class DdlDml {
 			} catch( FileNotFoundException e) {
 				System.out.println($POPULATE_FILE_PATH + " not found.");
 			} catch( IOException e) {
-				System.out.println("IOException while reading file " +$POPULATE_FILE_PATH);
-				System.exit(0);
+				System.out.println("IOException while reading file " + $POPULATE_FILE_PATH);
+				System.exit(74);
 			}
 			s.executeBatch();
 			conn.commit();
