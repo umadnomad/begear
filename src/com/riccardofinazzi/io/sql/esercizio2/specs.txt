@@ -1,0 +1,27 @@
+creare un database viaggi
+
+creare una tabella Vacanza con "Codice" e "Descrizione" (1,"Mauritius")
+
+creare una tabella Cliente con Codice (PK, INT) Nome Cognome CodiceFiscale DatadiNascita DatadiRegistrazione
+      RecapitoTel Email
+Tabella Villeggiante
+   Codice Nome Vacanza
+
+Scrivere i metodi per la creazione delle tabelle (Opzionale Popolamento Automatico)
+
+Utilizzando il comando ALTER TABLE, imponete sullo schema definito al punto precedente i seguenti vincoli
+
+Una vacanza è identificata univocamente dal suo codice (chiave primaria della tabella VACANZE);
+Un cliente è identificato univocamente dal codice fiscale (chiave alternativa);
+Ogni vacanza effettuata  (VACANZA nella tabella VILLEGGIANTE) è una vacanza della tabella VACANZE;
+Ogni codice di villegiante (CODICE nella tabella VILLEGGIANTE) è un codice di cliente della tabella CLIENTE.
+
+-----
+
+Definire le seguenti query
+
+Definite una vista che associ ad ogni villeggiante il numero delle vacanze effettuate;
+Definite una vista che restituisca tutte le descrizioni delle vacanze che non sono state effettuate da nessun cliente;
+Definite una vista che restituisca, per ciascun cliente,  nome, cognome, telefono e numero di villeggiature effettuate;
+Definite una vista che, per tutte le vacanze,  restituisca: identificativo, descrizione, nome, cognome, telefono ed indirizzo e-mail dei clienti che l'hanno effettuata; 
+Definite una vista che, per ciascuna vacanza, restituisca identificativo, descrizione e numero di persone che l'hanno effettuata.
