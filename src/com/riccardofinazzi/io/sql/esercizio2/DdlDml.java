@@ -128,7 +128,7 @@ public class DdlDml {
 		try( Statement s = conn.createStatement()) {
 			conn.setAutoCommit(false); // for further info read line 88.
 			String str = "";
-			try( BufferedReader br = new BufferedReader(new FileReader("src/utils/viaggi.sql"))) {
+			try( BufferedReader br = new BufferedReader(new FileReader($POPULATE_FILE_PATH))) {
 				while( ((str = br.readLine()) != null)) {
 					if( str.charAt(0) != '#') s.addBatch(str);
 				}
