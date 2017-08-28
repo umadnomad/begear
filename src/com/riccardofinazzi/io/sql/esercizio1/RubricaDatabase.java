@@ -1,11 +1,15 @@
 package com.riccardofinazzi.io.sql.esercizio1;
 
-import com.mysql.jdbc.Driver;
-import java.sql.*;
-import java.util.TreeMap;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
+import java.util.TreeMap;
 
-import com.riccardofinazzi.io.sql.esercizio1.Contatto;
+import utils.SysinReader;
 
 /**
  * @author rfinazzi
@@ -28,6 +32,7 @@ public class RubricaDatabase {
 	public static void main(String[] args) {
 
 		RubricaDatabase rd = new RubricaDatabase();
+		SysinReader sr = new SysinReader();
 		
 		System.out.println("selecting all the contacts and adding them to the storage TreeMap");
 		rd.stampaRubrica();
@@ -35,20 +40,20 @@ public class RubricaDatabase {
 
 		System.out.println(
 				"prompting user to insert a cod in order to find a contact and adding it to the storage TreeMap in the eventuality it wasn't already there. it won't add a duplicate due to map keys being unique");
-		rd.ricercaContatto(readingInt("please insert cod:"));
+		rd.ricercaContatto(sr.readInteger("please insert cod:"));
 		System.out.println();
 
 		System.out.println("prompting user to update a contact: cod,nome,cognome,numero");
-		rd.aggiornaContatto(readingInt("please insert cod:"), reading("please insert nome:"),
-				reading("please insert cognome:"), reading("please insert numero:"));
+		rd.aggiornaContatto(sr.readInteger("please insert cod:"), sr.readString("please insert nome:"),
+				sr.readString("please insert cognome:"), sr.readString("please insert numero:"));
 		System.out.println();
 
 		System.out.println("prompting user to delete a contact");
-		rd.eliminaContatto(readingInt("please insert cod:"));
+		rd.eliminaContatto(sr.readInteger("please insert cod:"));
 		
 		System.out.println("prompting user to add a contact");
-		rd.inserisciContatto(readingInt("please insert cod:"), reading("please insert nome:"),
-				reading("please insert cognome:"), reading("please insert numero:"));
+		rd.inserisciContatto(sr.readInteger("please insert cod:"), sr.readString("please insert nome:"),
+				sr.readString("please insert cognome:"), sr.readString("please insert numero:"));
 
 		if (conn != null) // closing connection
 			try {
@@ -249,15 +254,5 @@ public class RubricaDatabase {
 				ps.close();
 			} catch (SQLException e) {
 			}
-	}
-
-	private static String reading(String msg) {
-		System.out.println(msg);
-		return SavitchIn.readLine();
-	}
-
-	private static int readingInt(String msg) {
-		System.out.println(msg);
-		return SavitchIn.readLineInt();
 	}
 }

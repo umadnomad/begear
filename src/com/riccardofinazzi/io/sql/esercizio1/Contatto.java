@@ -1,6 +1,6 @@
 package com.riccardofinazzi.io.sql.esercizio1;
 
-class Contatto implements Comparable {
+class Contatto implements Comparable<Contatto> {
 
 	private int cod;
 	private String nome, cognome, numero;
@@ -63,7 +63,7 @@ class Contatto implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Contatto o) {
 		return String.valueOf(this.cod).compareTo(String.valueOf(((Contatto)o).getCod()));
 	}
 }

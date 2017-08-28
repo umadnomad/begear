@@ -4,43 +4,26 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import utils.SqlConnection;
 
 /**
  * standard(ish) UN*X preferable sysexits codes have been choosen due to missing
  * Windows's equivalent (https://stackoverflow.com/a/31521351).
  */
-public class DdlDml {
+public class DdlDml extends SqlConnection {
 
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	static {
-		try {
-			Class.forName(DRIVER);
-		} catch( ClassNotFoundException e) {
-			System.out.println("couldn't load jdbc driver");
-			System.exit(69);
-		}
-	}
 	private static final String		$POPULATE_FILE_PATH	= "src/utils/viaggi.sql";
-	private static final String[]	$SQL_PROP			= { "useSSL=false" };
-	private String					url, user, password;
-	private Connection				conn				= null;
-	private boolean					connected			= false;
 
 	public DdlDml( String url, String user, String password) {
-		this.url = url;
-		this.user = user;
-		this.password = password;
+		super(url,user,password);
 	}
 
 	public static void main( String[] args) {
 
-		DdlDml o = new DdlDml("jdbc:mysql://localhost:3306" + "?" + $SQL_PROP[0], "root", "root");
+		DdlDml o = new DdlDml("jdbc:mysql://localhost:3306?useSSL=false", "root", "root");
 
 		o.connect();
 		if( o.isConnected()) {
@@ -52,7 +35,7 @@ public class DdlDml {
 			o.disconnect();
 		}
 
-		o = new DdlDml("jdbc:mysql://localhost:3306/viaggi" + "?" + $SQL_PROP[0], "root", "root");
+		o = new DdlDml("jdbc:mysql://localhost:3306/viaggi?useSSL=false", "root", "root");
 
 		o.connect();
 		if( o.isConnected()) {
@@ -112,20 +95,8 @@ public class DdlDml {
 								"SELECT c.codicefiscale, COUNT(vil.codicefiscale) AS 'Vacanze Effettuate' FROM cliente c JOIN villeggiante vil ON c.codicefiscale = vil.codicefiscale GROUP BY c.codicefiscale;",
 								"SELECT va.codice, descrizione FROM vacanza va LEFT JOIN villeggiante vi ON va.codice = vi.vacanza WHERE vi.vacanza IS NULL;",
 								"SELECT vac.codice, vac.descrizione, c.nome, c.cognome, c.recapitotel, c.email FROM (cliente c JOIN villeggiante vil ON c.codicefiscale = vil.codicefiscale) JOIN vacanza vac ON vil.vacanza = vac.codice;" };
-		for( String in : queries) {
-			try( Statement s = conn.createStatement()) {
-				try( ResultSet rs = s.executeQuery(in)) {
-					ResultSetMetaData rsmd = rs.getMetaData();
-					int columnsnumber = rsmd.getColumnCount();
-					System.out.println("---------------------------------");
-					while( rs.next()) {
-						for( int i = 1; i <= columnsnumber; i++)
-							System.out.print(rs.getString(i) + ";");
-						System.out.println();
-					}
-				}
-			}
-		}
+	
+		this.forEachQuery(queries, "\t\t|", "--------------------------------------------------------------------------");
 	}
 
 	public void populate() throws SQLException {
@@ -148,33 +119,6 @@ public class DdlDml {
 			conn.setAutoCommit(true);
 		} catch( SQLException e) {
 			conn.rollback();
-		}
-	}
-
-	public boolean connect() {
-
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("connected @ " + url);
-			return connected = true;
-		} catch( SQLException e) {
-			System.out.println("couldn't connect to database " + url);
-		}
-		return connected = false;
-	}
-
-	public boolean isConnected() {
-
-		return connected;
-	}
-
-	public void disconnect() {
-
-		if( conn != null) try {
-			conn.close();
-			conn = null;
-		} catch( SQLException e) {
-			System.out.println("couldn't close Connection conn");
 		}
 	}
 }
