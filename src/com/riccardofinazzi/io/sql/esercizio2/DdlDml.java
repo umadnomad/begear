@@ -96,7 +96,7 @@ public class DdlDml extends SqlConnection {
 								"SELECT va.codice, descrizione FROM vacanza va LEFT JOIN villeggiante vi ON va.codice = vi.vacanza WHERE vi.vacanza IS NULL;",
 								"SELECT vac.codice, vac.descrizione, c.nome, c.cognome, c.recapitotel, c.email FROM (cliente c JOIN villeggiante vil ON c.codicefiscale = vil.codicefiscale) JOIN vacanza vac ON vil.vacanza = vac.codice;" };
 	
-		this.forEachQuery(queries, "\t\t|", "--------------------------------------------------------------------------");
+		this.forEachQuery(queries, ";", "--------------------------------------------------------------------------");
 	}
 
 	public void populate() throws SQLException {
