@@ -15,6 +15,6 @@ public class SysinReader {
 	public Integer readInteger( String msg) {
 
 		System.out.println(msg);
-		return scn.nextInt();
+		return Integer.parseInt(scn.nextInt());
 	}
 }
